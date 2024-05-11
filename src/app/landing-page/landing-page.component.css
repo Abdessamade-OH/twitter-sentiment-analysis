@@ -1,0 +1,35 @@
+.hero-section{
+    background-color: #041f37;
+    color: white;
+}
+
+.project-overview{
+    padding: 80px 0px;
+    background-color: #bdc3c7;
+}
+
+.key-goals{
+    padding: 80px 0px;
+    background-color: #273746;
+    color: white;
+}
+.kg-card{
+    background-color: #34495e;
+}
+.kg-card:hover{
+    background-color: #2c3e50; /* Dark Blueish */
+}
+
+.technology-stack{
+    background-color: #bdc3c7;
+    padding: 80px 0px;
+}
+.ts-card{
+    background-color: #e6e6e6;
+}
+
+.key-eatures{
+    padding: 80px 0px;
+    background-color: #273746;
+    color: white;
+}
