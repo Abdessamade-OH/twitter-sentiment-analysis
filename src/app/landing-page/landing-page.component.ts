@@ -35,8 +35,12 @@ export class LandingPageComponent implements OnInit{
       tech_image: '../../assets/images/techs/matplotlib.png',
     },
     {
-      tech_name: 'FastAPI',
-      tech_image: '../../assets/images/techs/fastAPI.png',
+      tech_name: 'MongoDB',
+      tech_image: '../../assets/images/techs/mongodb.webp',
+    },
+    {
+      tech_name: 'ExpressJS',
+      tech_image: '../../assets/images/techs/expressJS.png',
     },
     {
       tech_name: 'Angular',
@@ -45,10 +49,6 @@ export class LandingPageComponent implements OnInit{
     {
       tech_name: 'Bootstrap',
       tech_image: '../../assets/images/techs/bootstrap.png',
-    },
-    {
-      tech_name: 'MongoDB',
-      tech_image: '../../assets/images/techs/mongodb.webp',
     }
   ];
 

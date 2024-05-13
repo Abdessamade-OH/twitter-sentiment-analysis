@@ -1,0 +1,6 @@
+:host ::ng-deep .positive{
+    background-color: lightgreen !important;
+}
+:host ::ng-deep .negative{
+    background-color: lightcoral !important;
+}
