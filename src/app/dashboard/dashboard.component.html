@@ -25,6 +25,11 @@
                             <div class="card">
                                 <p-chart type="line" [data]="data2" [options]="options2" />
                             </div>
+                            <ul>
+                                <li>
+                                    {{tweetsFromService | json}}
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -34,7 +39,7 @@
                 <h3 class="fs-3 fw-bold">Twitter Live Feed Tweets</h3>
                 <div class="live-feed" style="max-height: 80vh; overflow-y: scroll;">
                     <p-table 
-                        [value]="tweets" 
+                        [value]="tweetsFromService" 
                         [tableStyle]="{'min-width': '50rem'}">
                             <ng-template pTemplate="header">
                                 <tr>

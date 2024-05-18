@@ -4,15 +4,22 @@ import { TableModule } from 'primeng/table';
 import { Tweet } from '../interfaces/tweet.interface';
 import { CommonModule } from '@angular/common';
 import { ChartModule } from 'primeng/chart';
+import { TweetBrute } from '../interfaces/tweetBrute.interface';
+import { TweetsService } from '../services/tweets.service';
+import { Observable } from 'rxjs';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [SidebarComponent, TableModule, CommonModule, ChartModule],
+  imports: [SidebarComponent, TableModule, CommonModule, ChartModule, HttpClientModule ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit{
+
+  constructor(private tweetService: TweetsService){}
 
   tweets: Tweet[] = [
     {
@@ -197,144 +204,168 @@ export class DashboardComponent implements OnInit{
     }
   ];
 
-    data: any;
-    options: any;
+  tweetsFromService: TweetBrute[] = [];
 
-    data2: any;
-    options2: any;
+  data: any;
+  options: any;
 
-    data3: any;
-    options3: any;
+  data2: any;
+  options2: any;
 
-    ngOnInit() {
-      const documentStyle = getComputedStyle(document.documentElement);
-      const textColor = documentStyle.getPropertyValue('--text-color');
-      const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
-      const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+  data3: any;
+  options3: any;
 
-      this.data = {
-          labels: ['Positive', 'Negative', 'Neutral', 'Irrelevant'],
-          datasets: [
-              {
-                  data: [540, 325, 702, 204],
-                  backgroundColor: [documentStyle.getPropertyValue('--green-500'), documentStyle.getPropertyValue('--red-500'), documentStyle.getPropertyValue('--yellow-500'), documentStyle.getPropertyValue('--gray-500')],
-                  hoverBackgroundColor: [documentStyle.getPropertyValue('--green-400'), documentStyle.getPropertyValue('--red-400'), documentStyle.getPropertyValue('--yellow-400'), documentStyle.getPropertyValue('--gray-400')]
-              }
-          ]
-      };
+  ngOnInit() {
+    const documentStyle = getComputedStyle(document.documentElement);
+    const textColor = documentStyle.getPropertyValue('--text-color');
+    const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+    const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
-      this.options = {
-          plugins: {
-              legend: {
-                  labels: {
-                      usePointStyle: true,
-                      color: textColor
-                  }
-              }
-          }
-      };
-
-      this.data2 = {
-          labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-          datasets: [
-              {
-                  label: 'First Dataset',
-                  data: [65, 59, 80, 81, 56, 55, 40],
-                  fill: false,
-                  tension: 0.4,
-                  borderColor: documentStyle.getPropertyValue('--blue-500')
-              },
-              {
-                  label: 'Second Dataset',
-                  data: [28, 48, 40, 19, 86, 27, 90],
-                  fill: false,
-                  borderDash: [5, 5],
-                  tension: 0.4,
-                  borderColor: documentStyle.getPropertyValue('--teal-500')
-              },
-              {
-                  label: 'Third Dataset',
-                  data: [12, 51, 62, 33, 21, 62, 45],
-                  fill: true,
-                  borderColor: documentStyle.getPropertyValue('--orange-500'),
-                  tension: 0.4,
-                  backgroundColor: 'rgba(255,167,38,0.2)'
-              }
-          ]
-      };
-      
-      this.options2 = {
-          maintainAspectRatio: false,
-          aspectRatio: 0.6,
-          plugins: {
-              legend: {
-                  labels: {
-                      color: textColor
-                  }
-              }
-          },
-          scales: {
-              x: {
-                  ticks: {
-                      color: textColorSecondary
-                  },
-                  grid: {
-                      color: surfaceBorder
-                  }
-              },
-              y: {
-                  ticks: {
-                      color: textColorSecondary
-                  },
-                  grid: {
-                      color: surfaceBorder
-                  }
-              }
-          }
-      };
-
-      this.data3 = {
-        labels: ['GrandTheftAuto(GTA)', 'Google', 'Cyberpunk2077', 'johnson&johnson', 'HomeDepot', 'Nvidia', 'LeagueOfLegends'],
+    this.data = {
+        labels: ['Positive', 'Negative', 'Neutral', 'Irrelevant'],
         datasets: [
             {
-                label: 'Positive',
-                borderColor: documentStyle.getPropertyValue('--green-400'),
-                pointBackgroundColor: documentStyle.getPropertyValue('--green-400'),
-                pointBorderColor: documentStyle.getPropertyValue('--green-400'),
-                pointHoverBackgroundColor: textColor,
-                pointHoverBorderColor: documentStyle.getPropertyValue('--green-400'),
-                data: [65, 59, 90, 81, 56, 55, 40]
-            },
-            {
-                label: 'Negative',
-                borderColor: documentStyle.getPropertyValue('--pink-400'),
-                pointBackgroundColor: documentStyle.getPropertyValue('--pink-400'),
-                pointBorderColor: documentStyle.getPropertyValue('--pink-400'),
-                pointHoverBackgroundColor: textColor,
-                pointHoverBorderColor: documentStyle.getPropertyValue('--pink-400'),
-                data: [28, 48, 40, 19, 96, 27, 100]
+                data: [540, 325, 702, 204],
+                backgroundColor: [documentStyle.getPropertyValue('--green-500'), documentStyle.getPropertyValue('--red-500'), documentStyle.getPropertyValue('--yellow-500'), documentStyle.getPropertyValue('--gray-500')],
+                hoverBackgroundColor: [documentStyle.getPropertyValue('--green-400'), documentStyle.getPropertyValue('--red-400'), documentStyle.getPropertyValue('--yellow-400'), documentStyle.getPropertyValue('--gray-400')]
             }
         ]
-      };
+    };
+
+    this.options = {
+        plugins: {
+            legend: {
+                labels: {
+                    usePointStyle: true,
+                    color: textColor
+                }
+            }
+        }
+    };
+
+    this.data2 = {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        datasets: [
+            {
+                label: 'First Dataset',
+                data: [65, 59, 80, 81, 56, 55, 40],
+                fill: false,
+                tension: 0.4,
+                borderColor: documentStyle.getPropertyValue('--blue-500')
+            },
+            {
+                label: 'Second Dataset',
+                data: [28, 48, 40, 19, 86, 27, 90],
+                fill: false,
+                borderDash: [5, 5],
+                tension: 0.4,
+                borderColor: documentStyle.getPropertyValue('--teal-500')
+            },
+            {
+                label: 'Third Dataset',
+                data: [12, 51, 62, 33, 21, 62, 45],
+                fill: true,
+                borderColor: documentStyle.getPropertyValue('--orange-500'),
+                tension: 0.4,
+                backgroundColor: 'rgba(255,167,38,0.2)'
+            }
+        ]
+    };
     
-      this.options3 = {
-          plugins: {
-              legend: {
-                  labels: {
-                      color: textColor
-                  }
-              }
+    this.options2 = {
+        maintainAspectRatio: false,
+        aspectRatio: 0.6,
+        plugins: {
+            legend: {
+                labels: {
+                    color: textColor
+                }
+            }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: textColorSecondary
+                },
+                grid: {
+                    color: surfaceBorder
+                }
+            },
+            y: {
+                ticks: {
+                    color: textColorSecondary
+                },
+                grid: {
+                    color: surfaceBorder
+                }
+            }
+        }
+    };
+
+    this.data3 = {
+      labels: ['GrandTheftAuto(GTA)', 'Google', 'Cyberpunk2077', 'johnson&johnson', 'HomeDepot', 'Nvidia', 'LeagueOfLegends'],
+      datasets: [
+          {
+              label: 'Positive',
+              borderColor: documentStyle.getPropertyValue('--green-400'),
+              pointBackgroundColor: documentStyle.getPropertyValue('--green-400'),
+              pointBorderColor: documentStyle.getPropertyValue('--green-400'),
+              pointHoverBackgroundColor: textColor,
+              pointHoverBorderColor: documentStyle.getPropertyValue('--green-400'),
+              data: [65, 59, 90, 81, 56, 55, 40]
           },
-          scales: {
-              r: {
-                  grid: {
-                      color: textColorSecondary
-                  },
-                  pointLabels: {
-                      color: textColorSecondary
-                  }
-              }
+          {
+              label: 'Negative',
+              borderColor: documentStyle.getPropertyValue('--pink-400'),
+              pointBackgroundColor: documentStyle.getPropertyValue('--pink-400'),
+              pointBorderColor: documentStyle.getPropertyValue('--pink-400'),
+              pointHoverBackgroundColor: textColor,
+              pointHoverBorderColor: documentStyle.getPropertyValue('--pink-400'),
+              data: [28, 48, 40, 19, 96, 27, 100]
           }
-      };
-    }
+      ]
+    };
+  
+    this.options3 = {
+        plugins: {
+            legend: {
+                labels: {
+                    color: textColor
+                }
+            }
+        },
+        scales: {
+            r: {
+                grid: {
+                    color: textColorSecondary
+                },
+                pointLabels: {
+                    color: textColorSecondary
+                }
+            }
+        }
+    };
+
+    this.fetchTweets();
+  }
+
+  fetchTweets(): void {
+    this.tweetService.getTweets().subscribe(
+      (data: any[]) => { // Change the type to any[] since the received data may not match TweetBrute interface
+        // Map each received object to the desired interface format
+        this.tweetsFromService = data.map((obj: any) => ({
+          tweetID: obj.tweet_id,
+          entity: obj.entity,
+          sentiment: obj.sentiment,
+          prediction: obj.prediction,
+          tweetContent: obj.tweet_content
+        }));
+        console.log(this.tweetsFromService); // Check the data in the console
+      },
+      (error: any) => {
+        console.error('Error fetching tweets:', error);
+      }
+    );
+  }
+  
 }
