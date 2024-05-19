@@ -196,7 +196,7 @@ export class DashboardComponent implements OnInit{
         this.countSentimentsByEntity();
 
         // Force update of the chart component
-        //this.cdr.detectChanges();
+        this.cdr.detectChanges();
         console.log(this.sentimentCounts); // Affichez les décomptes des sentiments dans la console
       },
       (error: any) => {
@@ -278,7 +278,7 @@ export class DashboardComponent implements OnInit{
     console.log("Data3 Before Update: ", this.data3);
 
     // Call detectChanges to ensure Angular detects the changes and updates the view
-    //this.cdr.detectChanges();
+    this.cdr.detectChanges();
 
     // Log the updated data3 after detectChanges
     console.log("Data3 After Update: ", this.data3);

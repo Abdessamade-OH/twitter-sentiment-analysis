@@ -37,13 +37,13 @@
 
         <div class="row my-5">
             <div class="col-md-6 col-12">
-                    <div class="card d-flex flex-column align-items-center justify-content-center">
+                    <div class="card d-flex flex-column align-items-center justify-content-center" *ngIf="tweetsFromService.length != 0">
                         <p-chart class="small-chart" type="pie" [data]="data" [options]="options" />
                     </div>
                     <h5 class="fs-5 text-center">Percentage of Total Sentiments</h5>
             </div>
             <div class="col-md-6 col-12">
-                <div class="card d-flex flex-column align-items-center justify-content-center">
+                <div class="card d-flex flex-column align-items-center justify-content-center" *ngIf="tweetsFromService.length != 0">
                     <p-chart class="small-chart" type="radar" [data]="data3" [options]="options3" />
                 </div>
                 <h5 class="fs-5 text-center">Percentage of Sentiments per Entitiy</h5>

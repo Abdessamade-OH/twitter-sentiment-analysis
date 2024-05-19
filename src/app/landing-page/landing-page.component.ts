@@ -31,8 +31,8 @@ export class LandingPageComponent implements OnInit{
       tech_image: '../../assets/images/techs/pandas.png',
     },
     {
-      tech_name: 'Matplotlib',
-      tech_image: '../../assets/images/techs/matplotlib.png',
+      tech_name: 'Docker',
+      tech_image: '../../assets/images/techs/docker.png',
     },
     {
       tech_name: 'MongoDB',
