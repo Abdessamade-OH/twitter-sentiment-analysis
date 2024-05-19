@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { TableModule } from 'primeng/table';
 import { Tweet } from '../interfaces/tweet.interface';
@@ -13,196 +13,21 @@ import { HttpClientModule } from '@angular/common/http';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [SidebarComponent, TableModule, CommonModule, ChartModule, HttpClientModule ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [SidebarComponent, TableModule, CommonModule, ChartModule, HttpClientModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit{
 
-  constructor(private tweetService: TweetsService){}
+  constructor(private tweetService: TweetsService, private cdr: ChangeDetectorRef){}
 
-  tweets: Tweet[] = [
-    {
-      tweetID: 3364,
-      entity: 'Facebook',
-      sentiment: 'Irrelevant',
-      tweetContent: "I mentioned on Facebook that I was struggling for motivation to go for a run the other day, which has been translated by Tom’s great auntie as ‘Hayley can’t get out of bed’ and told to his grandma, who now thinks I’m a lazy, terrible person 🤣"
-    },
-    {
-      tweetID: 352,
-      entity: 'Amazon',
-      sentiment: 'Neutral',
-      tweetContent: "BBC News - Amazon boss Jeff Bezos rejects claims company acted like a 'drug dealer' bbc.co.uk/news/av/busine…"
-    },
-    {
-      tweetID: 8312,
-      entity: 'Microsoft',
-      sentiment: 'Negative',
-      tweetContent: "@Microsoft Why do I pay for WORD when it functions so poorly on my @SamsungUS Chromebook? 🙄"
-    },
-    {
-      tweetID: 4371,
-      entity: 'CS-GO',
-      sentiment: 'Negative',
-      tweetContent: "CSGO matchmaking is so full of closet hacking, it's a truly awful game."
-    },
-    {
-      tweetID: 4433,
-      entity: 'Google',
-      sentiment: 'Neutral',
-      tweetContent: "Now the President is slapping Americans in the face that he really did commit an unlawful act after his  acquittal! From Discover on Google vanityfair.com/news/2020/02/t…"
-    },
-    {
-      tweetID: 6273,
-      entity: 'FIFA',
-      sentiment: 'Negative',
-      tweetContent: "Hi @EAHelp I’ve had Madeleine McCann in my cellar for the past 13 years and the little sneaky thing just escaped whilst I was loading up some fifa points, she took my card and I’m having to use my paypal account but it isn’t working, can you help me resolve it please?"
-    },
-    {
-      tweetID: 7925,
-      entity: 'MaddenNFL',
-      sentiment: 'Positive',
-      tweetContent: "Thank you @EAMaddenNFL!! New TE Austin Hooper in the ORANGE & BROWN!! #Browns | @AustinHooper18 pic.twitter.com/GRg4xzFKOn"
-    },
-    {
-      tweetID: 11332,
-      entity: 'TomClancysRainbowSix',
-      sentiment: 'Positive',
-      tweetContent: "Rocket League, Sea of Thieves or Rainbow Six: Siege🤔? I love playing all three on stream but which is the best? #stream #twitch #RocketLeague #SeaOfThieves #RainbowSixSiege #follow"
-    },
-    {
-      tweetID: 1107,
-      entity: 'AssassinsCreed',
-      sentiment: 'Positive',
-      tweetContent: "my ass still knee-deep in Assassins Creed Odyssey with no way out anytime soon lmao"
-    },
-    {
-      tweetID: 2069,
-      entity: 'CallOfDuty',
-      sentiment: 'Negative',
-      tweetContent: "FIX IT JESUS ! Please FIX IT ! What In the world is going on here. @PlayStation @AskPlayStation @Playstationsup @Treyarch @CallofDuty negative 345 silver wolf error code pic.twitter.com/ziRyhrf59Q"
-    },
-    {
-      tweetID: 3185,
-      entity: 'Dota2',
-      sentiment: 'Positive',
-      tweetContent: "The professional dota 2 scene is fucking exploding and I completely welcome it. Get the garbage out."
-    },
-    {
-      tweetID: 1172,
-      entity: 'AssassinsCreed',
-      sentiment: 'Positive',
-      tweetContent: "Itching to assassinate #TCCGif #AssassinsCreedBlackFlag #AssassinsCreed #TheCapturedCollective pic.twitter.com/vv8MOGtCjw"
-    },
-    {
-      tweetID: 11783,
-      entity: 'Verizon',
-      sentiment: 'Negative',
-      tweetContent: "@FredTJoseph hey fred, Comcast cut the cable and now Verizon stays calling me to shut that too pic.twitter.com/CPWSrmueDg"
-    },
-    {
-      tweetID: 4286,
-      entity: 'CS-GO',
-      sentiment: 'Neutral',
-      tweetContent: "CSGO WIngman (Im Silver dont bully) twitch.tv/lprezh"
-    },
-    {
-      tweetID: 8431,
-      entity: 'NBA2K',
-      sentiment: 'Negative',
-      tweetContent: "@NBA2K game sucks... down by 2 with 38 seconds left and my team intentionally fouls"
-    },
-    {
-      tweetID: 9135,
-      entity: 'Nvidia',
-      sentiment: 'Positive',
-      tweetContent: "Congrats to the NVIDIA NeMo team for the 1.0.0 release candidate! Really excited to see NeMo embracing Hydra as the way to take control over the configuration madness that is machine learning! :)"
-    },
-    {
-      tweetID: 4822,
-      entity: 'GrandTheftAuto(GTA)',
-      sentiment: 'Positive',
-      tweetContent: "yeah and it’s fun"
-    },
-    {
-      tweetID: 3068,
-      entity: 'Dota2',
-      sentiment: 'Negative',
-      tweetContent: "fuck my life 😆"
-    },
-    {
-      tweetID: 10537,
-      entity: 'RedDeadRedemption(RDR)',
-      sentiment: 'Positive',
-      tweetContent: "happy birthday red dead redemption that shit changed my life what a crazy experience"
-    },
-    {
-      tweetID: 8056,
-      entity: 'Microsoft',
-      sentiment: 'Negative',
-      tweetContent: "What does that say about Microsoft hardware & software security - The Man gets hacked"
-    },
-    {
-      tweetID: 2131,
-      entity: 'CallOfDuty',
-      sentiment: 'Negative',
-      tweetContent: "The new @CallofDuty for ps5 is 🔥🔥🔥🔥 Oh God 😭😍"
-    },
-    {
-      tweetID: 5450,
-      entity: 'Hearthstone',
-      sentiment: 'Neutral',
-      tweetContent: "Anyone that plays a bad luck albatross deck in hearthstone is a literal cop. Fucking fun police. pic.twitter.com/jY6TRq351e"
-    },
-    {
-      tweetID: 2286,
-      entity: 'CallOfDuty',
-      sentiment: 'Irrelevant',
-      tweetContent: "Call of duty warzone (livestream) w/ subs #Warzone youtu.be/7BhH_pjOMU4 via @YouTube Please come watch this AMAZING Call of Duty Warzone stream from this AMAZING streamer! It'd be really, really nice to give him some views and likes as well! 😀 #COD #CallofDuty #Warzone"
-    },
-    {
-      tweetID: 4038,
-      entity: 'CS-GO',
-      sentiment: 'Negative',
-      tweetContent: "Finally played Rainbow Six Siege for the first time... I have to admit, I prefer it over pulling my hair out in CSGO any day."
-    },
-    {
-      tweetID: 526,
-      entity: 'ApexLegends',
-      sentiment: 'Neutral',
-      tweetContent: "Umm @PlayApex when I died it said Bug This pic.twitter.com/bzMHzbadOF"
-    },
-    {
-      tweetID: 8977,
-      entity: 'Nvidia',
-      sentiment: 'Neutral',
-      tweetContent: "#gtc20 - nice, motivational, and very accessible Nvidia/AI product fair + related tech talks nvidia.com/en-us/gtc/keyn… interesting interaction/social activities: braindates, dinner with strangers, ... and free attendance for universities: reg.rainfocus.com/flow/nvidia/gt…"
-    },
-    {
-      tweetID: 11995,
-      entity: 'Verizon',
-      sentiment: 'Negative',
-      tweetContent: "Yo! @Verizon just added a $120 'fee' to my account under #COVID19 protection without my permission and I am forced to pay it! Check your bills carefully!"
-    },
-    {
-      tweetID: 9449,
-      entity: 'Overwatch',
-      sentiment: 'Irrelevant',
-      tweetContent: "They might not be the last team that has to make this difficult decision. #update #overwatchleague #nyxl #overwatch #overwatch2 #blizzard #games #lockdown pic.twitter.com/dI1HTl4mcV"
-    },
-    {
-      tweetID: 10193,
-      entity: 'PlayerUnknownsBattlegrounds(PUBG)',
-      sentiment: 'Irrelevant',
-      tweetContent: "Best squad yet#pubg #pubgmobile #pubgkenya instagram.com/p/B-Obt_eAA4f/…"
-    },
-    {
-      tweetID: 2419,
-      entity: 'Borderlands',
-      sentiment: 'Negative',
-      tweetContent: "@Borderlands how do I submit a complaint? Your CEO isn't paying his staff their bonuses."
-    }
-  ];
+  sentimentCounts: { [key: string]: number } = {
+    Positive: 0,
+    Negative: 0,
+    Neutral: 0,
+    Irrelevant: 0
+  };
 
   tweetsFromService: TweetBrute[] = [];
 
@@ -347,25 +172,131 @@ export class DashboardComponent implements OnInit{
     };
 
     this.fetchTweets();
+
   }
 
   fetchTweets(): void {
     this.tweetService.getTweets().subscribe(
-      (data: any[]) => { // Change the type to any[] since the received data may not match TweetBrute interface
-        // Map each received object to the desired interface format
+      (data: any[]) => { 
         this.tweetsFromService = data.map((obj: any) => ({
-          tweetID: obj.tweet_id,
+          tweetID: obj.tweetID,
           entity: obj.entity,
           sentiment: obj.sentiment,
           prediction: obj.prediction,
-          tweetContent: obj.tweet_content
+          tweetContent: obj.tweetContent
         }));
-        console.log(this.tweetsFromService); // Check the data in the console
+        console.log(this.tweetsFromService);
+  
+        // Appel de la fonction pour compter les sentiments
+        this.countSentiments();
+        
+        // Update chart data after sentiment counts are calculated
+        this.updateChartData();   
+
+        this.countSentimentsByEntity();
+
+        // Force update of the chart component
+        //this.cdr.detectChanges();
+        console.log(this.sentimentCounts); // Affichez les décomptes des sentiments dans la console
       },
       (error: any) => {
         console.error('Error fetching tweets:', error);
       }
     );
   }
+
+  countSentiments(): void {
+    this.sentimentCounts = {
+      Positive: 0,
+      Negative: 0,
+      Neutral: 0,
+      Irrelevant: 0
+    };
+
+    this.tweetsFromService.forEach(tweet => {
+      this.sentimentCounts[tweet.sentiment]++;
+    });
+  }
+
+  updateChartData(): void {
+    this.data.datasets[0].data = [
+      this.sentimentCounts['Positive'],
+      this.sentimentCounts['Negative'],
+      this.sentimentCounts['Neutral'],
+      this.sentimentCounts['Irrelevant']
+    ];
+  }
+
+  countSentimentsByEntity(): void {
+    // Shuffle the tweets array to get a random selection
+    const shuffledTweets = this.shuffleArray(this.tweetsFromService);
+  
+    // Get unique entities from the shuffled array
+    const uniqueEntities = Array.from(new Set(shuffledTweets.map(tweet => tweet.entity)));
+  
+    // Randomly choose 7 entities
+    const chosenEntities = this.chooseRandomEntities(uniqueEntities, 7);
+  
+    // Initialize an object to store sentiment counts for each chosen entity
+    const entitySentiments: {
+      [entity: string]: {
+        Positive: number;
+        Negative: number;
+      };
+    } = {};
+  
+    // Initialize the chosen entities in the object
+    chosenEntities.forEach(entity => {
+      entitySentiments[entity] = { Positive: 0, Negative: 0 };
+    });
+  
+    // Loop through the shuffled tweets and count positive and negative sentiments for each chosen entity
+    shuffledTweets.forEach(tweet => {
+      const entity = tweet.entity;
+      const sentiment = tweet.sentiment;
+  
+      // Increment the sentiment count if the entity is one of the chosen entities
+      if (entitySentiments[entity]) {
+        if (sentiment === 'Positive') {
+          entitySentiments[entity].Positive++;
+        } else if (sentiment === 'Negative') {
+          entitySentiments[entity].Negative++;
+        }
+      }
+    });
+  
+    // Prepare the data for the chart
+    const positiveData = chosenEntities.map(entity => entitySentiments[entity].Positive);
+    const negativeData = chosenEntities.map(entity => entitySentiments[entity].Negative);
+  
+    // Update the chart data and labels
+    this.data3.labels = chosenEntities;
+    this.data3.datasets[0].data = positiveData;
+    this.data3.datasets[1].data = negativeData;
+  
+    // Log the results to the console for debugging
+    console.log("Data3 Before Update: ", this.data3);
+
+    // Call detectChanges to ensure Angular detects the changes and updates the view
+    //this.cdr.detectChanges();
+
+    // Log the updated data3 after detectChanges
+    console.log("Data3 After Update: ", this.data3);
+    console.log("Entity Sentiments: ", entitySentiments);
+  }
+  
+  // Function to shuffle an array
+  shuffleArray(array: any[]): any[] {
+    return array.sort(() => Math.random() - 0.5);
+  }
+  
+  // Function to choose n random elements from an array
+  chooseRandomEntities(array: any[], n: number): any[] {
+    const shuffled = this.shuffleArray(array);
+    return shuffled.slice(0, n);
+  }
+  
   
 }
+  
+

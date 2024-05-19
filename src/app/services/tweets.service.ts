@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TweetBrute } from '../interfaces/tweetBrute.interface';
 import { Observable, throwError } from 'rxjs';
-import { retry, catchError } from 'rxjs/operators';
+import { retry, catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -20,9 +20,22 @@ export class TweetsService {
 
   // HttpClient API get() method => fetch tweets list
   getTweets(): Observable<TweetBrute[]> {
-    return this.http
-      .get<TweetBrute[]>(this.apiURL + '/getTweets')
-      .pipe(retry(1), catchError(this.handleError));
+    return this.http.get<any[]>(this.apiURL + '/getTweets').pipe(
+      retry(1),
+      map(data => data.map(item => this.transformTweet(item))),
+      catchError(this.handleError)
+    );
+  }
+
+  // Transformation method
+  private transformTweet(tweet: any): TweetBrute {
+    return {
+      tweetID: tweet['Tweet ID'],
+      tweetContent: tweet['TweetContent'],
+      entity: tweet['Entity'],
+      sentiment: tweet['Sentiment'],
+      prediction: tweet['prediction']
+    };
   }
 
   getTweetsNomral() {

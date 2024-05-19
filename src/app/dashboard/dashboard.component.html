@@ -2,43 +2,14 @@
 
 <section class="dashboard">
     <div class="container-fluid">
-        <div class="row my-3">
-            
-            <div class="col-12 col-lg-6">
-                <h3 class="fs-3 fw-bold">Charts</h3>
-                <div class="charts container">
-                    <div class="row g-3">
-                        <div class="col-12 col-lg-6">
-                            <div class="card flex justify-content-center">
-                                <p-chart type="pie" [data]="data" [options]="options" />
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-6">
-                            
-                            <div class="card flex justify-content-center">
-                                <p-chart type="radar" [data]="data3" [options]="options3" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-12">
-                            <div class="card">
-                                <p-chart type="line" [data]="data2" [options]="options2" />
-                            </div>
-                            <ul>
-                                <li>
-                                    {{tweetsFromService | json}}
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="col-12 col-lg-6">
-                <h3 class="fs-3 fw-bold">Twitter Live Feed Tweets</h3>
-                <div class="live-feed" style="max-height: 80vh; overflow-y: scroll;">
+        <h3 class="fs-3 fw-bold my-3">Twitter Live Feed Tweets and Charts</h3>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="live-feed" style="max-height: 50vh; overflow-y: scroll;">
                     <p-table 
+                        class="separated-table"
                         [value]="tweetsFromService" 
                         [tableStyle]="{'min-width': '50rem'}">
                             <ng-template pTemplate="header">
@@ -50,7 +21,7 @@
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-tweet>
-                                <tr [ngClass]="{'positive': tweet.sentiment === 'Positive', 'negative': tweet.sentiment === 'Negative'}">
+                                <tr [ngClass]="{'positive': tweet.sentiment === 'Positive', 'negative': tweet.sentiment === 'Negative', 'neutral': tweet.sentiment === 'Neutral'}">
                                     <td>{{tweet.tweetID}}</td>
                                     <td>{{tweet.entity}}</td>
                                     <td>
@@ -61,6 +32,21 @@
                             </ng-template>
                     </p-table>
                 </div>
+            </div>
+        </div>
+
+        <div class="row my-5">
+            <div class="col-md-6 col-12">
+                    <div class="card d-flex flex-column align-items-center justify-content-center">
+                        <p-chart class="small-chart" type="pie" [data]="data" [options]="options" />
+                    </div>
+                    <h5 class="fs-5 text-center">Percentage of Total Sentiments</h5>
+            </div>
+            <div class="col-md-6 col-12">
+                <div class="card d-flex flex-column align-items-center justify-content-center">
+                    <p-chart class="small-chart" type="radar" [data]="data3" [options]="options3" />
+                </div>
+                <h5 class="fs-5 text-center">Percentage of Sentiments per Entitiy</h5>
             </div>
         </div>
     </div>
